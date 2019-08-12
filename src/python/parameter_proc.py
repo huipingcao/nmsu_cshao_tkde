@@ -359,7 +359,7 @@ def read_cnn_varying_classification_parameter(parameter_file):
 
 
 
-def read_all_feature_classification(parameter_file, function_keyword="all_feature_classification"):
+def read_pv_cnn_generation(parameter_file, function_keyword="all_feature_classification"):
     lines = open(parameter_file).readlines()
     split_key = '/'
     keyword_list = ['#data_keyword', '#data_folder', '#attr_num', '#attr_len', '#num_classes', '#start_class', '#class_column', '#method', '#class_id', '#log_folder', '#obj_folder', '#cnn_setting_file']
