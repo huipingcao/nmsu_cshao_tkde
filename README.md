@@ -11,7 +11,7 @@ For example, the dataset name is "toy" and there are two data files under data/t
     1.1 Scripts:
     # python pv_cnn_generation.py 0
 
-    1.2 Outputs\\
+    1.2 Outputs//
     The output locates on object/toy/pv_cnn_generation/
 
 2. Run PV evaluation based on the output objects from step 1
