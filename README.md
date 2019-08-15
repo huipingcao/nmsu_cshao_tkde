@@ -31,3 +31,21 @@ For example, the dataset name is "toy" and there are two data files under data/t
     # python pv_classification.py 0  
     3.2 Parameters:  
     "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
+
+4. For the PV generation without CNN_${mts}$  
+    4.1 Script:  
+    # python pv_cnn_generation.y 0  
+    3.2 Parameters:  
+    "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
+
+5. Other baselines  
+    5.1 Forward wrapper  
+    # python forward_multitime.py 0  
+    5.2 Backward wrapper  
+    # python backward_multitime.py 0  
+    5.3 Best wrapper  
+    # python best_forward_multitime.py 0  
+    5.4 Channel mask  
+    # python arxiv_2017_channel_mask.py 0  
+    5.5 cpca
+    # python tkde_2005_pca.py 0
