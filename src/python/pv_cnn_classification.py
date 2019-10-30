@@ -115,7 +115,7 @@ def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, tes
 
 
 
-def projected_cnn_classification_main(parameter_file, file_keyword, function_keyword="projected_classification"):
+def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projected_classification"):
     data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file = read_feature_classification(parameter_file, function_keyword)
 
 

@@ -22,7 +22,7 @@ from sklearn_classification import run_knn
 from sklearn_classification import run_rf
 from sklearn_classification import run_libsvm
 from data_processing import train_test_transpose
-from projected_feature_cnn_main import projected_cnn_classification_main
+from pv_cnn_classification import pv_classification_cnn
 from log_io import init_logging
 
 
@@ -98,11 +98,11 @@ def run_feature_projected_classification(train_x_matrix, train_y_vector, test_x_
     return all_accuracy, all_f1_value, all_predict_y, all_train_time, all_test_time, all_predict_matrix
 
 
-def projected_classification_main(parameter_file, file_keyword, function_keyword="projected_classification"):
+def pv_classification_main(parameter_file, file_keyword, function_keyword="pv_classification"):
     data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file = read_feature_classification(parameter_file, function_keyword)
     log_folder = init_folder(log_folder)
     if method == 'cnn':
-        return projected_cnn_classification_main(parameter_file, file_keyword)
+        return pv_classification_cnn(parameter_file, file_keyword)
     
 
     print data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file
@@ -189,5 +189,5 @@ if __name__ == '__main__':
             print("That's not an int!")
 
     parameter_file = '../../parameters/pv_classification.txt'
-    projected_classification_main(parameter_file, file_keyword)
+    pv_classification_main(parameter_file, file_keyword)
     #
