@@ -9,7 +9,7 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import accuracy_score
 
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from svmutil import *
+#from svmutil import *
 
 from collections import Counter
 from log_io import init_logging
