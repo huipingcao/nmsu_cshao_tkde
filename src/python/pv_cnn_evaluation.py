@@ -368,12 +368,12 @@ def run_cnn_projected_feature_analysis(feature_folder, class_id, data_folder, da
 
 
 
-def pv_cnn_evaluation_main(data_keyword="toy", method="rf_lda", class_id=-1):
+def pv_cnn_evaluation_main(data_keyword="toy", method="rf_lda", file_keyword="train_", class_id=-1):
     feature_folder = "../../object/" + data_keyword + "/pv_cnn_generation/cnn_obj_folder/"
     data_folder = "../../data/" + data_keyword + "/"
     log_folder = "../../log/"+data_keyword+"/pv_cnn_evaluation/"
     log_folder = init_folder(log_folder)
-    run_cnn_projected_feature_analysis(feature_folder, class_id, data_folder, data_keyword, method, log_folder)
+    run_cnn_projected_feature_analysis(feature_folder, class_id, data_folder, file_keyword, method, log_folder)
 
 if __name__ == '__main__':
     argv_array = sys.argv
@@ -382,13 +382,30 @@ if __name__ == '__main__':
     projected = True
     len_argv_array = len(argv_array)
 
-    data_key = argv_array[1]
-    method = argv_array[2]
+    try:
+        data_key = argv_array[1]
+        method = argv_array[2]
+        class_id = -1
+    except Exception:
+        print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print ("REQURIED PARAMETERS MISSING")
+        print ("python pv_cnn_evaluation #data_keyword #method #file_keyword #class_id")
+        print ("#data_keyword and #method are required")
+        print ("#file_keyword and #class_id are optional")
+        print ("Without #file_keyword, it will loop all files under the data folder")
+        print ("Without #class_id, it will loop all classes")
+        exit()
+
 
     if len_argv_array > 3:
         try:
             val = int(argv_array[3])
-            file_keyword = file_keyword + argv_array[1]
-        except ValueError:
+            file_keyword = file_keyword + str(val)
+            if len_argv_array > 4:
+                try:
+                    class_id = int(argv_array[4])
+                except Exception:
+                    print ("Selected class id should be int")
+        except Exception:
             print ("That's not an int!")
-    pv_cnn_evaluation_main(data_key, method, file_keyword)
+    pv_cnn_evaluation_main(data_key, method, file_keyword, class_id)
