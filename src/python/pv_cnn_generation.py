@@ -208,7 +208,7 @@ if __name__ == '__main__':
             val = int(argv_array[1])
             file_keyword = file_keyword + argv_array[1]
         except ValueError:
-           print("That's not an int!")
+           print ("That's not an int!")
 
     parameter_file = '../../parameters/pv_cnn_generation.txt'
     pv_cnn_generation_main(parameter_file, file_keyword)
