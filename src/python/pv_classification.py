@@ -188,6 +188,6 @@ if __name__ == '__main__':
         except ValueError:
             print("That's not an int!")
 
-    parameter_file = '../../parameters/projected_feature_classification.txt'
+    parameter_file = '../../parameters/pv_classification.txt'
     projected_classification_main(parameter_file, file_keyword)
     #
