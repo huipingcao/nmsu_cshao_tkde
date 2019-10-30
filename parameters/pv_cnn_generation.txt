@@ -1,7 +1,7 @@
 #data_keyword
-dsa
+toy
 #data_folder
-../../data/dsa/
+../../data/toy/
 #attr_num
 45
 #attr_len

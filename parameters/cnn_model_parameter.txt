@@ -1,35 +1,23 @@
 #kernel_list
-#5 1, -1 1
 5 1, 5 1, -1 1
-#1 5, 1 5, 1 -1
-#[2-2-1] 5, 1 5, 1 -1
 #pooling_list
-#1 2, 1 2, -1 -1
-#2 1, -1 -1
 2 1, 2 1, -1 -1
 #feature_num_list
 50, 40, 20
-#50, 20
 #batch
-300
+100
 #max_iter
-50
-#20
+5
 #stop_threshold
 0.99
 #activation_func
-#####0 means RELU 
-#####1 means SIGMOID
-#####Others mean TANH
 3
 #std_value
 0.02
 #same_size
 False
-#True
 #feature_method
 #save
 none
 #eval_method
-#accuracy
 f1
