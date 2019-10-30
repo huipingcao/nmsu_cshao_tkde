@@ -86,8 +86,7 @@ def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, tes
         temp_test_y_matrix = y_vector_to_matrix(temp_test_y_vector, num_classes)
 
         if i == min_class:
-            train_x_placeholder, output_y_placeholder, predict_y_prob, keep_prob_placeholder, keeped_feature_list, saver_file, relu_base_array = cnn_set_flow_graph(
-        data_stru, cnn_setting, input_map, False, logger)
+            train_x_placeholder, output_y_placeholder, predict_y_prob, keep_prob_placeholder, keeped_feature_list, saver_file = cnn_set_flow_graph(data_stru, cnn_setting, input_map, False, logger)
             keep_saver_file = saver_file
         
         saver_file = cnn_setting.temp_obj_folder + class_saver_profix + keep_saver_file + "_top" + str(top_k)
