@@ -295,66 +295,66 @@ def libsvm_load_predict(test_x_matrix, test_y_vector, save_file):
     predict_y, predict_acc, predict_y_proba = svm_predict(test_y_vector, test_x_matrix, model, '-b 1')
     print predict_acc, predict_y, predict_y_proba
 
-#libsvm from the author's website
-def run_libsvm(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, logger, proba=False, save_file='', weight=True):
-    train_y_vector = train_y_vector- min(train_y_vector)
-    test_y_vector = test_y_vector - min(test_y_vector)
-    #train_x_matrix = train_x_matrix.astype(np.float64)
-    #train_y_vector = train_y_vector.astype(np.float64)
-    #test_x_matrix = test_x_matrix.astype(np.float64)
-    #test_y_vector = test_y_vector.astype(np.float64)
+# #libsvm from the author's website
+# def run_libsvm(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, logger, proba=False, save_file='', weight=True):
+#     train_y_vector = train_y_vector- min(train_y_vector)
+#     test_y_vector = test_y_vector - min(test_y_vector)
+#     #train_x_matrix = train_x_matrix.astype(np.float64)
+#     #train_y_vector = train_y_vector.astype(np.float64)
+#     #test_x_matrix = test_x_matrix.astype(np.float64)
+#     #test_y_vector = test_y_vector.astype(np.float64)
 
-    if weight == True:
-        positive_index = np.where(train_y_vector==1)
-        negative_index = np.where(train_y_vector==0)
-        len_positive = len(np.where(train_y_vector == 1)[0])
-        len_negative = len(train_y_vector) - len_positive
+#     if weight == True:
+#         positive_index = np.where(train_y_vector==1)
+#         negative_index = np.where(train_y_vector==0)
+#         len_positive = len(np.where(train_y_vector == 1)[0])
+#         len_negative = len(train_y_vector) - len_positive
 
-        logger.info("positive: " + str(len_positive))
-        logger.info("negative: " + str(len_negative))
+#         logger.info("positive: " + str(len_positive))
+#         logger.info("negative: " + str(len_negative))
 
-        if len_positive > len_negative:
-            add_pare = '-w0 ' + str(len_positive/len_negative) + ' -w1 1'
-        else:
-            add_pare = '-w1 ' + str(len_negative/len_positive) + ' -w0 1'
-    else:
-        add_pare = ''
+#         if len_positive > len_negative:
+#             add_pare = '-w0 ' + str(len_positive/len_negative) + ' -w1 1'
+#         else:
+#             add_pare = '-w1 ' + str(len_negative/len_positive) + ' -w0 1'
+#     else:
+#         add_pare = ''
 
-    train_x_matrix = train_x_matrix.tolist()
-    train_y_vector = train_y_vector.astype(np.integer).tolist()
-    test_x_matrix = test_x_matrix.tolist()
-    test_y_vector = test_y_vector.astype(np.integer).tolist()
+#     train_x_matrix = train_x_matrix.tolist()
+#     train_y_vector = train_y_vector.astype(np.integer).tolist()
+#     test_x_matrix = test_x_matrix.tolist()
+#     test_y_vector = test_y_vector.astype(np.integer).tolist()
 
-    #svm_model.predict = lambda self, x: svm_predict([0], [x], self)[0][0]
-    #prob = svm_problem([1,-1], [[1,0,1], [-1,0,-1]])
-    prob = svm_problem(train_y_vector, train_x_matrix)
+#     #svm_model.predict = lambda self, x: svm_predict([0], [x], self)[0][0]
+#     #prob = svm_problem([1,-1], [[1,0,1], [-1,0,-1]])
+#     prob = svm_problem(train_y_vector, train_x_matrix)
     
-    #logger.info("libsvm parameter: " + '-h 0 -s 0 -t 2 -c 0.03125 -g 0.0078125 -b 1 '+add_pare)
-    #param = svm_parameter('-h 0 -s 0 -t 2 -c 0.03125 -g 0.0078125 -b 1 '+add_pare)
-    logger.info("libsvm parameter: " + '-h 0 -s 0 -t 2 -b 1 -e 0.1 '+add_pare)
-    param = svm_parameter('-h 0 -s 0 -t 2 -b 1 -e 0.1 '+add_pare)
+#     #logger.info("libsvm parameter: " + '-h 0 -s 0 -t 2 -c 0.03125 -g 0.0078125 -b 1 '+add_pare)
+#     #param = svm_parameter('-h 0 -s 0 -t 2 -c 0.03125 -g 0.0078125 -b 1 '+add_pare)
+#     logger.info("libsvm parameter: " + '-h 0 -s 0 -t 2 -b 1 -e 0.1 '+add_pare)
+#     param = svm_parameter('-h 0 -s 0 -t 2 -b 1 -e 0.1 '+add_pare)
 
-    start_time = time.time()
-    model = svm_train(prob, param)
-    train_time = time.time() - start_time
+#     start_time = time.time()
+#     model = svm_train(prob, param)
+#     train_time = time.time() - start_time
 
-    if save_file != '':
-        logger.info("svm model saved to " + save_file)
-        svm_save_model(save_file, model)
+#     if save_file != '':
+#         logger.info("svm model saved to " + save_file)
+#         svm_save_model(save_file, model)
 
-    start_time = time.time()
-    #predict_y, predict_acc, predict_val = svm_predict(test_y_vector, test_x_matrix, model, '-b 1')
-    predict_y, predict_acc, predict_val = svm_predict(test_y_vector, test_x_matrix, model)
-    test_time = time.time() - start_time
-    #predict_val = np.array(predict_val)
-    #predict_y = np.array(predict_y)
-    #print predict_val.shape
-    #print predict_y.shape
-    predict_y = np.array(predict_y)
-    predict_val = np.zeros([len(predict_y), 2])
-    predict_val[:, 0] = 1 - predict_y
-    predict_val[:, 1] = predict_y
-    return predict_acc[0], predict_y, predict_val, train_time, test_time
+#     start_time = time.time()
+#     #predict_y, predict_acc, predict_val = svm_predict(test_y_vector, test_x_matrix, model, '-b 1')
+#     predict_y, predict_acc, predict_val = svm_predict(test_y_vector, test_x_matrix, model)
+#     test_time = time.time() - start_time
+#     #predict_val = np.array(predict_val)
+#     #predict_y = np.array(predict_y)
+#     #print predict_val.shape
+#     #print predict_y.shape
+#     predict_y = np.array(predict_y)
+#     predict_val = np.zeros([len(predict_y), 2])
+#     predict_val[:, 0] = 1 - predict_y
+#     predict_val[:, 1] = predict_y
+#     return predict_acc[0], predict_y, predict_val, train_time, test_time
 
 
 def run_svm_svc(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, proba=False):
@@ -371,7 +371,7 @@ def run_svm_svc(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, pr
     start_time = time.time()
     predict_y = clf.predict(test_x_matrix)
     test_time = time.time() - start_time
-    if proba == False:
+    if proba is False:
         predict_y_proba = None
     else:
         predict_y_proba = clf.predict_proba(test_x_matrix)
@@ -398,7 +398,7 @@ def run_nn(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, proba=F
 ##############################
 # we only consider KNN with K=1
 def run_feature_knn_use_proba(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, attr_num, n_neighbors, class_id=-1, logger=None):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
 
@@ -482,7 +482,7 @@ def run_feature_knn_use_proba(train_x_matrix, train_y_vector, test_x_matrix, tes
     return knn_accuracy, knn_train_time, knn_test_time, knn_predict_y
 
 def load_predict_svm_proba(test_x_matrix, test_y_vector, feature_array, attr_num, save_pre, logger=None):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
 
@@ -545,7 +545,7 @@ def load_predict_svm_proba(test_x_matrix, test_y_vector, feature_array, attr_num
 
 
 def run_feature_svm_use_proba(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, attr_num, logger=None, save_pre=''):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
     num_classes, num_features = feature_array.shape
@@ -582,7 +582,8 @@ def run_feature_svm_use_proba(train_x_matrix, train_y_vector, test_x_matrix, tes
         save_file = save_pre + "_class" + str(i) + "_top" + str(temp_attr_num) + ".model"
 
         logger.info('svm saved to ' + save_file)
-        temp_accuracy, temp_predict_y, temp_predict_y_proba, temp_train_time, temp_test_time = run_libsvm(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, logger, proba, save_file)
+        #temp_accuracy, temp_predict_y, temp_predict_y_proba, temp_train_time, temp_test_time = run_libsvm(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, logger, proba, save_file)
+        temp_accuracy, temp_predict_y, temp_predict_y_proba, temp_train_time, temp_test_time = run_sklearn_libsvm(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, logger, proba)
         temp_accuracy, temp_precision, temp_recall, temp_f1_value, temp_tp, temp_fp, temp_tn, temp_fn = f1_value_precision_recall_accuracy(temp_predict_y, temp_test_y_vector)
         temp_predict_y = np.array(temp_predict_y)
         temp_predict_y_proba = np.array(temp_predict_y_proba)
@@ -610,7 +611,7 @@ def run_feature_svm_use_proba(train_x_matrix, train_y_vector, test_x_matrix, tes
 
 
 def run_feature_svm_load_proba(model_pre, test_x_matrix, test_y_vector, feature_array, attr_num, logger=None):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
     num_classes, num_features = feature_array.shape
@@ -714,7 +715,7 @@ def run_feature_nn_use_proba(train_x_matrix, train_y_vector, test_x_matrix, test
 
 
 def run_feature_lda_use_proba(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, attr_num, logger=None):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
     num_classes, num_features = feature_array.shape
@@ -768,7 +769,7 @@ def run_feature_lda_use_proba(train_x_matrix, train_y_vector, test_x_matrix, tes
 
 
 def run_feature_rf_use_proba(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, attr_num, logger=None):
-    if logger==None:
+    if logger is None:
         logger = init_logging("")
         logger.info('no log file: ')
     num_classes, num_features = feature_array.shape

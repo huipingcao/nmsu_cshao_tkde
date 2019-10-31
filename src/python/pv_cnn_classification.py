@@ -31,7 +31,7 @@ from ijcnn_2017_cnn import run_feature_projected_ijcnn_fcn
 # For projected feature evaluation using projected cnn
 # train_x_matrix: train_row, attr_len, attr_num, num_map
 def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, data_stru, cnn_setting, feature_dict, top_k, saver_file_profix='', class_id=-1, logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     method = 'cnn'
 
@@ -76,9 +76,10 @@ def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, tes
         logger.info("negative class labels length: " + str(fold_negative_len))
         class_feature = feature_dict[i]
         class_feature = class_feature[0:top_k]
-        print top_k
-        print class_feature
-        logger.info("feature list: " + str(class_feature))
+        print ("class: " + str(i))
+        print ("number of features: " + str(top_k))
+        print ("Top features list: " + class_feature)
+        logger.info("Top feature list: " + str(class_feature))
         
         temp_train_x_matrix = train_x_matrix[:, :, class_feature, :]
         temp_test_x_matrix = test_x_matrix[:, :, class_feature, :]
@@ -114,9 +115,8 @@ def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, tes
 
 
 
-def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projected_classification"):
+def pv_classification_cnn(parameter_file, file_keyword, function_keyword="pv_classification"):
     data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file = read_feature_classification(parameter_file, function_keyword)
-
 
     log_folder = init_folder(log_folder)
     cnn_obj_folder = init_folder(cnn_obj_folder)
@@ -136,7 +136,7 @@ def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projec
     cnn_setting.temp_obj_folder = cnn_temp_folder
     cnn_setting.eval_method = 'f1'
     init_folder(cnn_obj_folder)
-    init_folder(cnn_temp_folder) 
+    init_folder(cnn_temp_folder)
 
     save_obj_folder = obj_folder[:-1] + "_" + method +"_out"
     save_obj_folder = init_folder(save_obj_folder)
@@ -147,10 +147,8 @@ def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projec
         if file_keyword not in train_file:
             continue
         loop_count = loop_count + 1
-        print loop_count
         file_key = train_file.replace('.txt', '')
         log_file = log_folder + data_keyword + '_' + file_key + '_' + function_keyword + '_class' + str(class_id) + '_top' + str(top_k) + '_' + method + '.log'
-    
         print "log file: " + log_file
         logger = setup_logger(log_file, 'logger_' + str(loop_count))
         logger.info('\nlog file: ' + log_file)
@@ -166,19 +164,17 @@ def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projec
         if found_obj_file == '':
             raise Exception('No obj file found')
         
-        print found_obj_file
-        print cnn_setting.save_obj_folder + file_key + "_" + method +"_projected_result.ckpt"
+        #print found_obj_file
+        #print cnn_setting.save_obj_folder + file_key + "_" + method +"_projected_result.ckpt"
         #
         found_obj_file = obj_folder + found_obj_file
 
         feature_dict = load_obj(found_obj_file)[0]
         feature_dict = np.array(feature_dict)
         logger.info("feature array shape: " + str(feature_dict.shape))
-        
         test_file = train_file.replace('train', 'test')
 
-        train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, attr_num = train_test_file_reading_with_attrnum(
-            data_folder + train_file, data_folder + test_file, class_column, delimiter, header)
+        train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, attr_num = train_test_file_reading_with_attrnum(data_folder + train_file, data_folder + test_file, class_column, delimiter, header)
         
         if file_count == 0:
             logger.info('train matrix shape: ' + str(train_x_matrix.shape))
@@ -202,7 +198,3 @@ def pv_classification_cnn(parameter_file, file_keyword, function_keyword="projec
         logger.info(method + ' fold accuracy: ' + str(fold_accuracy))
         logger.info("save obj to " + save_obj_folder + file_key + "_" + method +"_project_" + method +"_result.ckpt")
         save_obj([fold_accuracy, fold_f1_value, fold_predict_y, fold_train_time, fold_test_time, fold_predict_matrix], save_obj_folder + file_key + "_" + method +"_project_" + method +"_result.ckpt")
-    
-
-    
-

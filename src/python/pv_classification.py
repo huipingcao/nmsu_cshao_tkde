@@ -20,7 +20,7 @@ from classification_results import f1_value_precision_recall_accuracy
 
 from sklearn_classification import run_knn
 from sklearn_classification import run_rf
-from sklearn_classification import run_libsvm
+from sklearn_classification import run_sklearn_libsvm
 from data_processing import train_test_transpose
 from pv_cnn_classification import pv_classification_cnn
 from log_io import init_logging
@@ -30,7 +30,7 @@ from log_io import init_logging
 # For projected feature evaluation using projected cnn
 # train_x_matrix: train_row, attr_len, attr_num, input_map
 def run_feature_projected_classification(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, top_k, method, class_id=-1, logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
 
     train_row, attr_len, attr_num, input_map = train_x_matrix.shape
@@ -79,9 +79,10 @@ def run_feature_projected_classification(train_x_matrix, train_y_vector, test_x_
             class_accuracy, class_predict_y, class_predict_prob, class_train_time, class_test_time = run_knn(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, n_neighbors, prob)
         elif method == 'rf':
             class_accuracy, class_predict_y, class_predict_prob, class_train_time, class_test_time = run_rf(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, samples_leaf, prob)
-        elif method == 'libsvm':
-            class_accuracy, class_predict_y, class_predict_prob, class_train_time, class_test_time = run_libsvm(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, logger, prob, '', True)
-        
+        elif method == 'svm':
+            class_accuracy, class_predict_y, class_predict_prob, class_train_time, class_test_time = run_sklearn_libsvm(temp_train_x_matrix, temp_train_y_vector, temp_test_x_matrix, temp_test_y_vector, prob)
+        else:
+            raise Exception("Method not supported!!")
 
         class_accuracy, precision, recall, class_f1, tp, fp, tn, fn = f1_value_precision_recall_accuracy(class_predict_y, temp_test_y_vector, 1)
 
@@ -102,7 +103,7 @@ def pv_classification_main(parameter_file, file_keyword, function_keyword="pv_cl
     data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file = read_feature_classification(parameter_file, function_keyword)
     log_folder = init_folder(log_folder)
     if method == 'cnn':
-        return pv_classification_cnn(parameter_file, file_keyword)
+        return pv_classification_cnn(parameter_file, file_keyword, function_keyword)
     
 
     print data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, cnn_obj_folder, cnn_temp_folder, cnn_setting_file
@@ -179,7 +180,6 @@ if __name__ == '__main__':
     argv_array = sys.argv
     run_stdout = sys.stdout
     file_keyword = 'train_'
-    projected = True
     len_argv_array = len(argv_array)
     if len_argv_array > 1:
         try:
@@ -190,4 +190,3 @@ if __name__ == '__main__':
 
     parameter_file = '../../parameters/pv_classification.txt'
     pv_classification_main(parameter_file, file_keyword)
-    #

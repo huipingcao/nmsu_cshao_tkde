@@ -28,7 +28,7 @@ def conf_conv_layer(layer, kernel_r, kernel_c, input_matrix, num_input_map, num_
     #else:
     #    std_value = sqrt(0.2 / num_input_map)
     if logger is None:
-        logger = setup_logger("")
+        logger = init_logging("")
     tf.random.set_random_seed(layer)
     weight_variable = tf.Variable(tf.truncated_normal([kernel_r, kernel_c, num_input_map, num_output_map], stddev=std_value), name='conv_w_'+str(layer))
     
@@ -48,7 +48,7 @@ def conf_conv_layer(layer, kernel_r, kernel_c, input_matrix, num_input_map, num_
 
 
 def cnn_set_flow_graph(data_stru, cnn_setting, input_map, group_all=False, logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     tf.reset_default_graph()
     tf.random.set_random_seed(0)
@@ -59,8 +59,7 @@ def cnn_set_flow_graph(data_stru, cnn_setting, input_map, group_all=False, logge
 
     output_y_placeholder = tf.placeholder(tf.float32, [None, num_classes])
     train_x_placeholder = tf.placeholder(tf.float32, [None, attr_len, attr_num, input_map])
-    logits_out, keep_prob_placeholder, keeped_feature_list, saver_file = cnn_configure(
-        train_x_placeholder, cnn_setting, num_classes, group_all, logger)
+    logits_out, keep_prob_placeholder, keeped_feature_list, saver_file = cnn_configure(train_x_placeholder, cnn_setting, num_classes, group_all, logger)
     return train_x_placeholder, output_y_placeholder, logits_out, keep_prob_placeholder, keeped_feature_list, saver_file
 
 
@@ -71,7 +70,7 @@ def cnn_set_flow_graph(data_stru, cnn_setting, input_map, group_all=False, logge
 #train_x_matrix: train_row, attr_len, attr_num, input_map
 #test_x_matrix: test_row, attr_len, attr_num, input_map
 def run_cnn(train_x_matrix, train_y_matrix, test_x_matrix, test_y_matrix, data_stru, cnn_setting, group_all=False, saver_file_profix='', logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     num_classes = data_stru.num_classes
     attr_num = data_stru.attr_num
@@ -103,7 +102,7 @@ def run_cnn(train_x_matrix, train_y_matrix, test_x_matrix, test_y_matrix, data_s
 #train_x_matrix: train_row, attr_len, attr_num, input_map
 #test_x_matrix: test_row, attr_len, attr_num, input_map
 def run_projected_cnn(train_x_matrix, train_y_matrix, test_x_matrix, test_y_matrix, data_stru, cnn_setting, group_all=False, saver_file_profix='', logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     num_classes = data_stru.num_classes
     attr_num = data_stru.attr_num
@@ -128,7 +127,7 @@ def run_projected_cnn(train_x_matrix, train_y_matrix, test_x_matrix, test_y_matr
 
 
 def cnn_train(train_x_matrix, train_y_matrix, test_x_matrix, test_y_matrix, num_classes, cnn_setting, input_x_placeholder, output_y_placeholder, logits_out, keep_prob, keeped_feature_list, saver_file="./", logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     min_class = 0
     eval_method = cnn_setting.eval_method
@@ -411,7 +410,7 @@ def conf_out_layer(input_x_matrix, num_features, num_classes, std_value=0.1):
 # train_x_placeholder: row, attr_len, attr_num, input_map
 # group_all: True means group all attributes in the first layer
 def cnn_configure(train_x_placeholder, cnn_setting, num_classes, group_all=False, logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
 
     # CNN Parameters
@@ -457,7 +456,7 @@ def cnn_configure(train_x_placeholder, cnn_setting, num_classes, group_all=False
         saver_file = saver_file + "_c" + str(conv_row_kernel) + "_" + str(conv_col_kernel)
         #activation_fun = 3
         #print i, conv_row_kernel, conv_col_kernel, train_x_placeholder, num_input_map, num_output_map, activation_fun, strides_list, std_value, same_size
-        out_conv = conf_conv_layer(i, conv_row_kernel, conv_col_kernel, train_x_placeholder, num_input_map, num_output_map, activation_fun, strides_list, std_value, same_size)
+        out_conv = conf_conv_layer(i, conv_row_kernel, conv_col_kernel, train_x_placeholder, num_input_map, num_output_map, activation_fun, strides_list, std_value, same_size, logger)
         
         logger.info("Conv output: " + str(out_conv.get_shape()))
         pool_row_kernel = pool_rate_list[i, 0]

@@ -375,6 +375,7 @@ def pv_cnn_evaluation_main(data_keyword="toy", method="rf_lda", file_keyword="tr
     log_folder = init_folder(log_folder)
     run_cnn_projected_feature_analysis(feature_folder, class_id, data_folder, file_keyword, method, log_folder)
 
+
 if __name__ == '__main__':
     argv_array = sys.argv
     run_stdout = sys.stdout

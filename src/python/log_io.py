@@ -1,4 +1,5 @@
 import logging
+import tensorflow as tf
 from datetime import datetime
 
 
@@ -12,7 +13,8 @@ def init_logging(log_file=''):
         logging.basicConfig(format=log_format, level=logging.INFO) 
     else:
         logging.basicConfig(filename=log_file, filemode='w', format=log_format, level=logging.INFO)
-    logger = logging.getLogger()
+    #logger = logging.getLogger()
+    logger = tf.get_logger()
     return logger
 
 
@@ -23,10 +25,11 @@ def setup_logger(log_file='', name='log_name', level=logging.INFO):
     if log_file != '':
         log_file = datetime.now().strftime(log_file + '_%Y_%m_%d_%H_%M.log')
     formatter = logging.Formatter('%(levelname)s %(asctime)-15s [%(lineno)d] %(funcName)s: %(message)s')
-    handler = logging.FileHandler(log_file, 'w')        
+    handler = logging.FileHandler(log_file, 'w')
     handler.setFormatter(formatter)
 
     logger = logging.getLogger(name)
+    #logger = tf.get_logger(name)
     logger.setLevel(level)
     logger.addHandler(handler)
 
