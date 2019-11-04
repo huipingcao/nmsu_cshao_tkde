@@ -28,6 +28,8 @@ cnn
 #obj_folder
 ../../object/KEYWORD/pv_cnn_generation/
 #obj_keyword
-cnn_obj_folder_rf_lda
+#cnn_obj_folder_rf_lda
+cnn_obj_folder_rf
+#cnn_obj_folder_lda
 #cnn_setting_file
 ../../parameters/cnn_model_parameter.txt
