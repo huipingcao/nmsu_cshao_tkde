@@ -34,11 +34,19 @@ For example, the dataset name is "toy" and there are two data files under data/t
 
 4. For the PV generation without CNN_${mts}$  
     4.1 Script:  
-    # python pv_cnn_generation.y 0  
-    3.2 Parameters:  
+    # python pv_baseline_evaluation.y 0  
+    4.2 Parameters:  
     "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
 
-5. Other baselines  
+5. For the multi-class classification using PVs  
+    5.1 Script:  
+    # python multi_proj_feature_classification.y 0  
+    5.2 Parameters:  
+    "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
+    This program uses the same PVs identified above  
+    Other parameters are from the parameter file: pv_classification.txt  
+
+6. Other baselines  
     5.1 Forward wrapper  
     # python forward_multitime.py 0  
     5.2 Backward wrapper  
