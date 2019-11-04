@@ -33,7 +33,7 @@ from ijcnn_2017_cnn import run_feature_projected_ijcnn_fcn
 # For projected feature evaluation using projected cnn
 # train_x_matrix: train_row, attr_len, attr_num, num_map
 def run_load_predict_cnn(fold_keyword, model_saved_folder, feature_array, top_k, test_x_matrix, test_y_vector, data_stru, cnn_setting, group_all=True, save_obj_folder="./", logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
     
     real_num_classes = data_stru.num_classes

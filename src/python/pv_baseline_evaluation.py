@@ -1,30 +1,24 @@
-# This python code is used to generate normal projected features
+# This python code is used to generate normal PVs without CNN
 # 1. projected feature based on PCA
 # 2. projected feature based on LDA
 
 # -*- coding: utf-8 -*-
 import numpy as np
 import sys
-import os
-from os.path import isfile, join, isdir
 from sklearn.decomposition import PCA
 import time
 
-from numpy import array, dot, mean, std, empty, argsort
-from numpy.linalg import eigh, solve
-from numpy.random import randn
 from log_io import setup_logger
 from data_io import file_reading
 from data_io import x_y_spliting
 from data_io import list_files
-from data_io import init_folder
 from object_io import save_obj
 from parameter_proc import read_pure_feature_generation
 
-from cnn_feature_evaluation import project_cnn_feature_combined_rf_lda_analysis
-from cnn_feature_evaluation import project_cnn_feature_combined_rf_analysis
-from cnn_feature_evaluation import project_cnn_feature_combined_lda_analysis
-from cnn_feature_evaluation import map_attr_imp_analysis
+from pv_cnn_evaluation import project_cnn_feature_combined_rf_lda_analysis
+from pv_cnn_evaluation import project_cnn_feature_combined_rf_analysis
+from pv_cnn_evaluation import project_cnn_feature_combined_lda_analysis
+from pv_cnn_evaluation import map_attr_imp_analysis
 
 # PCA analysis using sklearn pca package
 # data_matrix: 2D matrix, N * C
@@ -311,22 +305,14 @@ def run_lda_proj_feature_main(data_folder, class_column, attr_num, num_classes, 
 
 
 # Used to calculate the pure feature without CNN
-def run_pure_proj_feature_main(file_keyword, parameter_file = '../../parameters/feature_generation_projected_pure.txt'):
-    data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, method, log_folder, out_obj_folder = read_pure_feature_generation(parameter_file)
+def run_pure_pv_evaluation(file_keyword, parameter_file='../../parameters/pv_baseline_evaluation.txt', function_keyword="pure_pv_evaluation"):
+    data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, method, log_folder, out_obj_folder = read_pure_feature_generation(parameter_file, function_keyword)
 
     print data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, method, log_folder, out_obj_folder
 
     file_list = list_files(data_folder)
-    overall_time = 0
-
-    ret_feature_array = []
-    ret_feature_weight = []
 
     file_count = 0
-    overall_time = 0
-    predict = False
-    delimiter = " "
-    header = True
     for train_file in file_list:
         if file_keyword not in train_file: 
             continue
@@ -347,7 +333,7 @@ def run_pure_proj_feature_main(file_keyword, parameter_file = '../../parameters/
 
         #logger = setup_logger('')
         logger = setup_logger(log_folder + log_file)
-        print log_folder + log_file
+        print "log file: " + log_folder + log_file
         logger.info(train_file)
         out_obj_file = train_key + "_" + method + "_min" + str(min_class) + "_max" + str(max_class) + "_pure_projected.obj"
         out_obj_matrix = []
@@ -376,60 +362,6 @@ def run_pure_proj_feature_main(file_keyword, parameter_file = '../../parameters/
 
 if __name__ == '__main__':
     argv_array = sys.argv
-    #data_matrix = np.random.rand(500, 10, 20)
-    #index_vector, value_vector = run_pca_proj_feature_3D(data_matrix)
-    #print index_vector
-    #print value_vector
-#
-    #print index_vector.shape
-    #print value_vector.shape
-    #sdf
-###
-###
-###    data_folder = "../../data/human/processed/ready/data.txt_trainTest10/"
-###    class_column = 0
-###    attr_num = 117
-###    num_classes = 33
-###    data_keyword = 'rar'
-###
-###    data_folder = "../../data/uci_human_movement/"
-###    class_column = 0
-###    attr_num = 45
-###    num_classes = 19
-###    data_keyword = 'uci'
-###
-###    data_folder = "../../data/arc_activity_recognition/s1_ijcal_10_folds/arc/all.txt_trainTest10/"
-###    class_column = 0
-###    attr_num = 107
-###    num_classes = 18
-###    data_keyword = 'arc'
-###
-###    data_folder = "../../data/evn/ds/DS_all_ready_to_model.csv_trainTest2_weekly_5attr/"
-###    class_column = 0
-###    attr_num = 5
-###    num_classes = 2
-###    data_keyword = 'evn/ds'
-###
-###   #data_folder = "../../data/evn/es/ES_all_ready_to_model.csv_trainTest2_weekly_5attr/"
-###   #class_column = 0
-###   #attr_num = 5
-###   #num_classes = 2
-###   #data_keyword = 'evn/es'
-###
-###   #data_folder = "../../data/evn/pg/PG_all_ready_to_model.csv_trainTest2_weekly_5attr/"
-###   #class_column = 0
-###   #attr_num = 5
-###   #num_classes = 2
-###   #data_keyword = 'evn/pg'
-###
-###
-###    transpose = True
-###
-###
-###    method = "pure_lda_projected_feature"
-###    #method = "pure_pca_projected_feature"
-
-
     argv_array = sys.argv
     run_stdout = sys.stdout
     file_keyword = 'train_'
@@ -442,5 +374,4 @@ if __name__ == '__main__':
         except ValueError:
             print ("That's not an int!")
     print file_keyword
-    run_pure_proj_feature_main(file_keyword)
-
+    run_pure_pv_evaluation(file_keyword)

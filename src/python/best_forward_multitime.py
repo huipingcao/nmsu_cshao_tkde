@@ -17,7 +17,7 @@ from object_io import load_obj
 from log_io import setup_logger
 from model_setting import return_cnn_setting_from_file
 from model_setting import return_cnn_keyword
-from parameter_proc import read_all_feature_classification
+from parameter_proc import read_feature_classification
 from data_io import train_test_file_reading
 
             
@@ -83,7 +83,7 @@ def fixed_width_forward_multitime(train_x, train_y, test_x, test_y, n_selected_f
                 F_key = str(F)[1:-1]
 
                 if method == "cnn":
-                    eval_value, train_run_time, test_run_time, predict_proba, saver_file, feature_list_obj_file, relu_based_array = model_evaluation_cnn(train_x_tmp, train_y, test_x_tmp, test_y, data_stru, cnn_setting, saver_file_profix + "_F" + F_key, logger)
+                    eval_value, train_run_time, test_run_time, predict_proba, saver_file, feature_list_obj_file = model_evaluation_cnn(train_x_tmp, train_y, test_x_tmp, test_y, data_stru, cnn_setting, saver_file_profix + "_F" + F_key, logger)
                     f_eval_value = eval_value
                 elif method == "rf":
                     eval_value, train_run_time, test_run_time = model_evaluation_rf(train_x_tmp, train_y, test_x_tmp, test_y, model, logger)
@@ -125,10 +125,12 @@ def fixed_width_forward_multitime(train_x, train_y, test_x, test_y, n_selected_f
 
 
 def best_forward_multitime_main(parameter_file="../../parameters/", file_keyword="train_", function_keyword="best_forward_multitime"):
-    data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, method, log_folder, out_obj_folder, out_model_folder, cnn_setting_file = read_all_feature_classification(parameter_file, function_keyword)
+    #data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, method, log_folder, out_obj_folder, out_model_folder, cnn_setting_file = read_all_feature_classification(parameter_file, function_keyword)
+    data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, top_k, method, log_folder, out_obj_folder, out_model_folder, cnn_setting_file = read_feature_classification(parameter_file, function_keyword)
+
     print data_keyword, data_folder, attr_num, attr_len, num_classes, start_class, class_column, class_id, obj_folder, method, log_folder, out_obj_folder, out_model_folder, cnn_setting_file
     function_keyword = function_keyword + "_" + method
-    if data_keyword == "dsa":
+    if data_keyword == "dsa" or data_keyword == "toy":
         n_selected_features = 15
         num_classes = 19
     elif data_keyword == "rar":
@@ -140,6 +142,8 @@ def best_forward_multitime_main(parameter_file="../../parameters/", file_keyword
     elif data_keyword == "asl":
         n_selected_features = 6
         num_classes = 95
+    else:
+        raise Exception("Please fullfill the data basic information first!")
 
     keep_k = 5
 
@@ -201,12 +205,10 @@ def best_forward_multitime_main(parameter_file="../../parameters/", file_keyword
 
 
 if __name__ == "__main__":
-    parameter_file = "../../parameters/all_feature_classification.txt"
+    parameter_file = "../../parameters/pv_classification.txt"
     argv_array = sys.argv
     file_keyword="train_"
     if len(argv_array)==2:
         file_keyword = file_keyword + str(argv_array[1])
     best_forward_multitime_main(parameter_file, file_keyword)
-
-    
 

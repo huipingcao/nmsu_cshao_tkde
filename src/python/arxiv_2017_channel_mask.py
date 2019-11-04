@@ -425,9 +425,10 @@ if __name__ == '__main__':
     #data_keyword = 'arc'
     data_keyword = 'ara'
     data_keyword = 'asl'
+    data_keyword = 'toy'
     keyword = "arxiv_2017_mask"
-    data_sub_folder = "train_test_1_fold"
-    data_sub_folder = "train_test_3_fold"
+    data_sub_folder = ""
+    #data_sub_folder = "train_test_3_fold"
     data_folder = '../../data/' + data_keyword + '/' + data_sub_folder + '/'
     obj_folder = '../../object/' + data_keyword + '/' + keyword +'/' 
     obj_folder = init_folder(obj_folder)
@@ -443,7 +444,7 @@ if __name__ == '__main__':
         except ValueError:
             print("That's not an int!")
     method_key = 0 # Generate the shap-mask object from original datasets
-    method_key = 1 # Generate the attr-importance from the generated shap-mask objects
+    #method_key = 1 # Generate the attr-importance from the generated shap-mask objects
 
     shap_k = 10
     shap_min = 3

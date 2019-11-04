@@ -30,7 +30,7 @@ from log_io import init_logging
 # For projected feature evaluation using projected cnn
 # train_x_matrix: train_row, attr_len, attr_num, input_map
 def run_feature_projected_classification(train_x_matrix, train_y_vector, test_x_matrix, test_y_vector, feature_array, top_k, method, class_id=-1, logger=None):
-    if logger == None:
+    if logger is None:
         logger = init_logging('')
 
     train_row, attr_len, attr_num, input_map = train_x_matrix.shape
@@ -173,7 +173,7 @@ def multi_proj_feature_classification(parameter_file, file_keyword, function_key
         logger.info(method + ' fold testing time (sec):' + str(fold_test_time))
         logger.info(method + ' fold accuracy: ' + str(fold_accuracy))
         logger.info("save obj to " + save_obj_folder + file_key + "_" + method +"_project_" + method +"_result.ckpt")
-        save_obj([fold_accuracy, fold_f1_value, fold_predict_y, fold_train_time, fold_test_time, fold_predict_matrix], save_obj_folder + file_key + "_" + method +"_project_" + method +"_result.ckpt")
+        save_obj([fold_accuracy, fold_f1_value, fold_predict_y, fold_train_time, fold_test_time, fold_predict_matrix], save_obj_folder + file_key + "_" + method +"_project_" + method + "_result.ckpt")
     
 
     
@@ -191,7 +191,7 @@ if __name__ == '__main__':
         except ValueError:
             print("That's not an int!")
 
-    parameter_file = '../../parameters/projected_feature_classification.txt'
+    parameter_file = '../../parameters/pv_classification.txt'
     function_keyword = "multi_proj_feature_classification"
     multi_proj_feature_classification(parameter_file, file_keyword, function_keyword)
     #

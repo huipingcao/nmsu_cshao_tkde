@@ -438,7 +438,7 @@ def read_pv_cnn_generation(parameter_file, function_keyword="all_feature_classif
 # The function is used to read the input method key file
 # The key file contains the data file we need to process
 # function keyword can be "projected_classification" or "global_classification"
-def read_pure_feature_generation(parameter_file, function_keyword="pure_feature_generation"):
+def read_pure_feature_generation(parameter_file, function_keyword="pure_pv_evaluation"):
     lines = open(parameter_file).readlines()
     split_key = '/'
     keyword_list = ['#data_keyword', '#data_folder', '#attr_num', '#attr_len', '#num_classes', '#start_class', '#class_column', '#method', '#log_folder', '#obj_folder']
