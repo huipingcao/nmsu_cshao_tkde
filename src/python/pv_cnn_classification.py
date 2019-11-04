@@ -78,7 +78,7 @@ def run_feature_projected_cnn(train_x_matrix, train_y_vector, test_x_matrix, tes
         class_feature = class_feature[0:top_k]
         print ("class: " + str(i))
         print ("number of features: " + str(top_k))
-        print ("Top features list: " + class_feature)
+        print ("Top features list: " + str(class_feature))
         logger.info("Top feature list: " + str(class_feature))
         
         temp_train_x_matrix = train_x_matrix[:, :, class_feature, :]

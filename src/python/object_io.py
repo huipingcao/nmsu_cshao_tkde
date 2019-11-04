@@ -35,7 +35,7 @@ if __name__ == '__main__':
     obj_file = "../../object/ara/arxiv_2017_mask/train_0_mask_gene_shapNum10_shapMin3_shapMax5_class0.obj"
     obj_file = "../../object/ara/pure_feature_generation/train_0_rf_lda_min0_max10pure_projected.obj"
     obj_file = "../../object/dsa/forward_wrapper/dsa_train_0_forward_wrapper_class-1_rf.out"
-    obj_file = "/home/ivan/Research/projects/nmsu_cshao_tkde/object/toy/pv_cnn_generation/cnn_obj_folder_rf_lda/train_0_rf_lda_min0_max19.obj"
+    obj_file = "/Users/ivan/Research/projects/nmsu_cshao_tkde/object/toy/pv_cnn_generation/cnn_obj_folder_rf/train_0_rf_min0_max19.obj"
     #obj_folder = '../../object/dsa/tkde_2005_dcpc_score_libsvm_out/'
     #obj_folder = '../../object/dsa/all_feature_classification/fcn_obj_folder/'
     #obj_file = 'train_0_count0_fcn_class0_c8_1_c5_1_c3_1global_p112_1.ckpt'
