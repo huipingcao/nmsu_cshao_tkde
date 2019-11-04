@@ -38,22 +38,27 @@ For example, the dataset name is "toy" and there are two data files under data/t
     4.2 Parameters:  
     "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
 
-5. For the multi-class classification using PVs  
+5. For the global variables generation based on PV
     5.1 Script:  
+    # python global_feature_generation.py  
+    5.2 Parameters: The parameter file is global_feature_generation.txt
+
+6. For the multi-class classification using PVs  
+    6.1 Script:  
     # python multi_proj_feature_classification.y 0  
-    5.2 Parameters:  
+    6.2 Parameters:  
     "0" is an optional parameter. It identify which fold to run. The program will run all folds if the parameter is missing.  
     This program uses the same PVs identified above  
     Other parameters are from the parameter file: pv_classification.txt  
 
-6. Other baselines  
-    5.1 Forward wrapper  
+7. Other baselines  
+    7.1 Forward wrapper  
     # python forward_multitime.py 0  
-    5.2 Backward wrapper  
+    7.2 Backward wrapper  
     # python backward_multitime.py 0  
-    5.3 Best wrapper  
+    7.3 Best wrapper  
     # python best_forward_multitime.py 0  
-    5.4 Channel mask  
+    7.4 Channel mask  
     # python arxiv_2017_channel_mask.py 0  
-    5.5 cpca
+    7.5 cpca
     # python tkde_2005_pca.py 0
