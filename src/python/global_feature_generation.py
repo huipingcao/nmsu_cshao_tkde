@@ -5,25 +5,21 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import sys
-import os
 from sklearn.decomposition import PCA
 import time
 
-from numpy import array, dot, mean, std, empty, argsort
-from numpy.linalg import eigh, solve
-from numpy.random import randn
+from numpy import dot, mean, std, empty, argsort
+from numpy.linalg import eigh
 from data_io import listFiles
 from data_io import readFile
 from data_io import init_logging
 
 from parameter_proc import read_global_feature_generation_parameter
-from parameter_proc import read_data_key_file
-from parameter_proc import read_method_key_file
-from obj_save_load import save_obj
-from obj_save_load import load_obj
+from object_io import save_obj
+from object_io import load_obj
 
-from post_classification import gene_lda_feature
-from post_classification import majority_vote
+from feature_evaluation import gene_lda_feature_v2
+from feature_evaluation import majority_vote
 from post_classification import majority_vote_index
 
 
@@ -121,7 +117,7 @@ def gene_global_lda_feature(x_matrix, y_vector, attr_num, logger):
     #print "=====x_matrix========"
     #print x_matrix.shape
     #print "======WRONG======="
-    lda_coef_matrix = gene_lda_feature(x_matrix, y_vector)
+    lda_coef_matrix = gene_lda_feature_v2(x_matrix, y_vector)
     run_time = run_time + time.time() - start_time
     logger.info("lda coefficient matrix shape: " + str(lda_coef_matrix.shape))
     coef_row, coef_col = lda_coef_matrix.shape
